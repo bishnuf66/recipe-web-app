@@ -22,6 +22,7 @@ export const Home = () => {
       try {
         const response = await axios.get(
           `http://localhost:3001/recipes/savedRecipes/ids/${userID}`
+
         );
         setSavedRecipes(response.data.savedRecipes);
       } catch (err) {
@@ -47,9 +48,33 @@ export const Home = () => {
 
   const isRecipeSaved = (id) => savedRecipes.includes(id);
 
+
+  const searchHandel = async (event) => {
+    let key = event.target.value;
+    if (key) {
+      let result = await fetch(`http://localhost:3001/search/${key}`);
+      result = await result.json();
+      if (result) {
+        setRecipes(result)
+      }
+    }
+    else {
+      const response = await axios.get("http://localhost:3001/recipes");
+      setRecipes(response.data);
+
+    }
+
+  }
+
+
+
+
+
   return (
     <div>
       <h1>Recipes</h1>
+      <input type="text" placeholder="search recipe"
+        onChange={searchHandel} />
       <ul>
         {recipes.map((recipe) => (
           <li key={recipe._id}>
