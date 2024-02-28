@@ -14,6 +14,7 @@ app.use("/auth", userRouter);
 app.use("/recipes", recipesRouter);
 
 
+
 //database connection
 
 mongoose.connect(
@@ -38,4 +39,16 @@ app.get("/search/:key", async (req, res) => {
   });
   res.json(result)
 });
+
+
+
+//delete api
+app.delete("/recipe/:id", async (req, res) => {
+
+  const result = await RecipesModel.deleteOne({ _id: req.params.id })
+  res.send(req.params.id);
+});
+
+
+
 app.listen(3001, () => console.log("Server started"));

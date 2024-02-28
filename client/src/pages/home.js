@@ -48,7 +48,7 @@ export const Home = () => {
 
   const isRecipeSaved = (id) => savedRecipes.includes(id);
 
-
+  //for searching
   const searchHandel = async (event) => {
     let key = event.target.value;
     if (key) {
@@ -66,7 +66,18 @@ export const Home = () => {
 
   }
 
+  //delete api
+  const deleteRecipe = async (id) => {
+    let result = await fetch(`http://localhost:3001/recipe/${id}`, {
+      method: "Delete"
+    }); {
+      alert("recipe deleted");
+      const response = await axios.get("http://localhost:3001/recipes");
+      setRecipes(response.data);
 
+    }
+
+  };
 
 
 
@@ -79,6 +90,7 @@ export const Home = () => {
         {recipes.map((recipe) => (
           <li key={recipe._id}>
             <div>
+
               <h2>{recipe.name}</h2>
               <button
                 onClick={() => saveRecipe(recipe._id)}
@@ -92,9 +104,11 @@ export const Home = () => {
             </div>
             <img src={recipe.imageUrl} alt={recipe.name} />
             <p>Cooking Time: {recipe.cookingTime} minutes</p>
+            <div><button onClick={() => deleteRecipe(recipe._id)}>DELETE</button></div>
           </li>
         ))}
       </ul>
+
     </div>
   );
 };
